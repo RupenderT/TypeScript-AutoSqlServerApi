@@ -1,0 +1,19 @@
+{
+  "name": "autosqlserverapi",
+  "version": "1.0.3",
+  "description": "Forntend Library for using AutoSqlServerApi",
+  "main": "lib/AutoSql.js",
+  "types": "lib/AutoSql.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "Asp.net core Api, Asp.net core sqlserver api"
+  ],
+  "author": "Rupender Tomar",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
