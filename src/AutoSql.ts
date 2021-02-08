@@ -32,7 +32,7 @@ interface IAutoSqlStoreProc<T>{
     currentWhereOn;
     //TableName;
 
-    host = dotNetApiPath;
+   // host = dotNetApiPath;
     requestOptions = {
         method: 'POST',
         headers: null,
@@ -41,7 +41,7 @@ interface IAutoSqlStoreProc<T>{
     };
 
 
-    constructor(protected TableName) {
+    constructor(protected TableName,protected host) {
         //this.TableName = this.constructor.name;
         var header = new Headers();
         header.append("Content-Type", "application/json")
@@ -192,8 +192,8 @@ interface IAutoSqlStoreProc<T>{
  
   export class AutoSqlTable<T> extends AutoSql<T> implements IAutoSqlTable<T>{ 
        
- constructor(tableName){
-     super(tableName);
+ constructor(tableName,host){
+     super(tableName,host);
     
  }
 
