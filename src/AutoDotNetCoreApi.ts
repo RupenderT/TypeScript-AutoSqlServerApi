@@ -84,7 +84,7 @@ export abstract class AutoDotNetCoreApi<T> {
     where(on: string) {
         var obj = this.getCopy();
         obj.currentWhereOn = on;
-        return new WhereClause(on, obj);
+        return new WhereClause<this>(on, obj);
     }
 
 
