@@ -1,26 +1,26 @@
-import { dotNetApiPath } from './AutoSqlConfig';
+import { dotNetApiPath } from './AutoDotNetCoreApiConfig';
 
 import { SqlSort, SqlSortTypes, SqlWhereClause } from "./models";
 import { WhereClause } from "./WhereClause";
 
 declare var fetch: any;
 
-interface IAutoSqlTable<T>{
- select(arr:any):any;
- add(obj:any):any;
- update(obj:any):any;
- delete():any;
+interface IAutoDotNetCoreApiTable<T> {
+    select(arr: any): any;
+    add(obj: any): any;
+    update(obj: any): any;
+    delete(): any;
 }
-interface IAutoSqlView<T>{
-    select(arr:any):any;
+interface IAutoDotNetCoreApiView<T> {
+    select(arr: any): any;
 }
-interface IAutoSqlStoreProc<T>{
-    get():any;
+interface IAutoDotNetCoreApiStoredProc {
+    get(obj): any;
 }
 
 
- export  abstract class AutoSql<T> {
-    protected top:number ;
+export abstract class AutoDotNetCoreApi<T> {
+    protected top: number;
     protected selectList: string[] = [];
     strWhere: SqlWhereClause[] = [];
     protected groupby: string[] = [];
@@ -32,7 +32,7 @@ interface IAutoSqlStoreProc<T>{
     currentWhereOn;
     //TableName;
 
-   // host = dotNetApiPath;
+    // host = dotNetApiPath;
     requestOptions = {
         method: 'POST',
         headers: null,
@@ -41,7 +41,7 @@ interface IAutoSqlStoreProc<T>{
     };
 
 
-    constructor(protected TableName,protected host) {
+    constructor(protected TableName, protected host) {
         //this.TableName = this.constructor.name;
         var header = new Headers();
         header.append("Content-Type", "application/json")
@@ -108,14 +108,14 @@ interface IAutoSqlStoreProc<T>{
         this.selectList.push('count(*) Total');
         return this.execute(this.getBasicRequestOption());
     }
-   
+
     take(count: number) {
         this.top = count;
         return this;
     }
-    
 
-   
+
+
 
 
 
@@ -150,7 +150,7 @@ interface IAutoSqlStoreProc<T>{
     }
 
 
-    
+
 
     protected async execute(requestOptions) {
 
@@ -186,45 +186,73 @@ interface IAutoSqlStoreProc<T>{
         return this.host + `${type}/` + this.TableName;
     }
 
-   
-}
-
- 
-  export class AutoSqlTable<T> extends AutoSql<T> implements IAutoSqlTable<T>{ 
-       
- constructor(tableName,host){
-     super(tableName,host);
-    
- }
-
- async delete() {
-    var raw = JSON.stringify(this.getObj());
-    this.requestOptions.body = raw;
-    this.requestOptions.method = "DELETE";
-    return this.execute(this.requestOptions);
-
-}
-async add(T) {
-    var raw = JSON.stringify(T);
-
-    var raw = JSON.stringify(this.getObj());
-    this.requestOptions.body = raw;
-    this.requestOptions.method = "POST";
-    return this.execute(this.requestOptions);
-}
-
-async update(obj) {
-
-    var raw = JSON.stringify({ obj: obj, where: this.strWhere, betweens: this.betweenArr });
-
-    this.requestOptions.body = raw;
-    this.requestOptions.method = "PUT";
-    return this.execute(this.requestOptions);
-}
-
 
 }
 
-export class AutoSqlView<T> extends AutoSql<T> implements IAutoSqlView<T>{
+
+export class AutoDotNetCoreApiTable<T> extends AutoDotNetCoreApi<T> implements IAutoDotNetCoreApiTable<T>{
+
+    constructor(tableName, host) {
+        super(tableName, host);
+
+    }
+
+    async delete() {
+        var raw = JSON.stringify(this.getObj());
+        this.requestOptions.body = raw;
+        this.requestOptions.method = "DELETE";
+        return this.execute(this.requestOptions);
+
+    }
+    async add(T) {
+        var raw = JSON.stringify(T);
+
+        var raw = JSON.stringify(this.getObj());
+        this.requestOptions.body = raw;
+        this.requestOptions.method = "POST";
+        return this.execute(this.requestOptions);
+    }
+
+    async update(obj) {
+
+        var raw = JSON.stringify({ obj: obj, where: this.strWhere, betweens: this.betweenArr });
+
+        this.requestOptions.body = raw;
+        this.requestOptions.method = "PUT";
+        return this.execute(this.requestOptions);
+    }
+
+
+}
+
+export class AutoDotNetCoreApiView<T> extends AutoDotNetCoreApi<T> implements IAutoDotNetCoreApiView<T>{
+
+}
+
+
+export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc {
+
+    constructor(private name: string, private host: string) {
+
+    }
+    async get(obj: any) {
+        const api = this.API();
+
+
+        var header = new Headers();
+        header.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: header,
+            body: obj,
+            redirect: 'follow'
+        };
+
+        var responce = await fetch(api, requestOptions);
+        return responce.json();
+    }
+    protected API() {
+        return this.host + `storedProc/` + this.name;
+    }
 
 }

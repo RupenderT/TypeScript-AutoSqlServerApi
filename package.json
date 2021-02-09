@@ -1,9 +1,9 @@
 {
-  "name": "autosqlserverapi",
+  "name": "autodotnetcoreapi",
   "version": "1.0.5",
-  "description": "Forntend Library for using AutoSqlServerApi",
-  "main": "lib/AutoSql.js",
-  "types": "lib/AutoSql.d.ts",
+  "description": "Forntend Library for using AutoDotNetCoreApi",
+  "main": "lib/AutoDotNetCoreApi.js",
+  "types": "lib/AutoDotNetCoreApi.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"

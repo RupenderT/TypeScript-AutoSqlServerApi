@@ -1,5 +1,3 @@
-import { AutoSql } from "./AutoSql";
-
 export class WhereClause {
 
     constructor(private on, private obj:any) { }
