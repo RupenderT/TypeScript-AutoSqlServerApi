@@ -1,6 +1,6 @@
 {
   "name": "autodotnetcoreapi",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Forntend Library for using AutoDotNetCoreApi",
   "main": "lib/AutoDotNetCoreApi.js",
   "types": "lib/AutoDotNetCoreApi.d.ts",
