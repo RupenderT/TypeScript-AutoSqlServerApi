@@ -15,7 +15,7 @@ interface IAutoDotNetCoreApiView<T> {
     select(arr: any): any;
 }
 interface IAutoDotNetCoreApiStoredProc {
-    get(obj): any;
+    execute(obj): any;
 }
 
 
@@ -233,7 +233,7 @@ export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc
     constructor(private name: string, private host: string) {
 
     }
-    async get(obj: any) {
+    async execute(obj: any) {
         const api = this.API();
 
 
