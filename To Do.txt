@@ -1,0 +1,1 @@
+*Send jwt token in fetch 

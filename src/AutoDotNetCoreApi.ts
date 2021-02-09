@@ -242,7 +242,7 @@ export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc
         var requestOptions = {
             method: 'POST',
             headers: header,
-            body: obj,
+            body: JSON.stringify(obj),
             redirect: 'follow'
         };
 
