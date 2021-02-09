@@ -204,10 +204,8 @@ export class AutoDotNetCoreApiTable<T> extends AutoDotNetCoreApi<T> implements I
         return this.execute(this.requestOptions);
 
     }
-    async add(T) {
-        var raw = JSON.stringify(T);
-
-        var raw = JSON.stringify(this.getObj());
+    async add(obj) {
+        var raw = JSON.stringify(obj);
         this.requestOptions.body = raw;
         this.requestOptions.method = "POST";
         return this.execute(this.requestOptions);
