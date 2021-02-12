@@ -1,13 +1,15 @@
-AutoSqlServerApi work with Asp.Net Core .net 5.0 and above. AutoSqlServerApi can create CRUD Api for your Sql Server by just adding a middleware in your Startup.
+AutoDotNetCoreApi work with Asp.Net Core .net 5.0 and above. AutoDotNetCoreApi can create CRUD Api for your Sql Server by just adding a middleware in your Startup.
 # Installation:
-##### Install AutoSqlServerApi Nuget package in your asp.net core application then Add Middleware in Startup file.
+##### Install AutoDotNetCoreApi Nuget package in your asp.net core application then Add Middleware in Startup file.
 
-        app.UseAutoSqlServerApi<MyAppDbContext>("/api/values","SqlUser");
-        Following is the full signature for the UseAutoSqlServerApi Middleware.
-        UseAutoSqlServerApi<T>(ApiPath,Role);
+        app.UseAutoDotNetCoreApi<MyAppDbContext>("/api/values",true,"SqlUser");
+
+ Following is the full signature for the UseAutoDotNetCoreApi Middleware.
+ UseAutoDotNetCoreApi<T>(ApiPath,AuthticationRequired,Role);
         
    - T: T is type of Microsoft.EntityFrameworkCore.DbContext
-   - ApiPath: this path will be used by AutoSqlServerApi every request to this path    will going to  be handled by UseAutoSqlServerApi.
+   - AuthticationRequired: Is Autitication Required by the client to access the api.
+   - ApiPath: this path will be used by AutoDotNetCoreApi every request to this path    will going to  be handled by UseAutoDotNetCoreApi.
    
 If your are using http://example.com for your application then by giving ApiPath="/api/values" api path is going to be:
 http://example.com/api/values/  
@@ -34,9 +36,9 @@ And user must be in "SqlUser" role to access this api.
   - **betweens**:arrayof objects for checking value of a column to be between in                   value1 and value2 , leave empty if required none
   
 AutSqlServerApi also have ha npm package for create this object automatically for you.
-just add autosqlserverapi in your angular or react (or any client side framework how usage Typescript or Javascript).
+just add AutoDotNetCoreApi in your angular or react (or any client side framework how usage Typescript or Javascript).
 
-# Usage of  npm autosqlserverapi  package:
+# Usage of  npm AutoDotNetCoreApi  package:
     First create a class for representing your Sql Server Table  or View
     like :
     class Employee {
