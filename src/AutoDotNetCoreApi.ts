@@ -41,10 +41,12 @@ export abstract class AutoDotNetCoreApi<T> {
     };
 
 
-    constructor(protected TableName, protected host) {
+
+    constructor(protected TableName, protected host,protected jwt) {
         //this.TableName = this.constructor.name;
         var header = new Headers();
         header.append("Content-Type", "application/json")
+        header.append('Authorization' , `Bearer ${this.jwt}`);
         this.requestOptions.headers = header;
 
     }
@@ -124,6 +126,7 @@ export abstract class AutoDotNetCoreApi<T> {
         var copy = Object.assign(Object.create(Object.getPrototypeOf(this)), v);
         var header = new Headers();
         header.append("Content-Type", "application/json");
+        header.append('Authorization' , `Bearer ${this.jwt}`);
         copy.requestOptions =
         {
             method: 'POST',
@@ -161,6 +164,7 @@ export abstract class AutoDotNetCoreApi<T> {
         }
         var header = new Headers();
         header.append("Content-Type", "application/json");
+        header.append('Authorization' , `Bearer ${this.jwt}`);
         requestOptions.headers = header;
         var responce = await fetch(api, requestOptions);
         return responce.json();
@@ -192,8 +196,8 @@ export abstract class AutoDotNetCoreApi<T> {
 
 export class AutoDotNetCoreApiTable<T> extends AutoDotNetCoreApi<T> implements IAutoDotNetCoreApiTable<T>{
 
-    constructor(tableName, host) {
-        super(tableName, host);
+    constructor(tableName, host,jwt) {
+        super(tableName, host,jwt);
 
     }
 
@@ -230,7 +234,7 @@ export class AutoDotNetCoreApiView<T> extends AutoDotNetCoreApi<T> implements IA
 
 export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc {
 
-    constructor(private name: string, private host: string) {
+    constructor(private name: string, private host: string,private jwt:string) {
 
     }
     async execute(obj: any) {
@@ -239,6 +243,7 @@ export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc
 
         var header = new Headers();
         header.append("Content-Type", "application/json");
+        header.append('Authorization' , `Bearer ${this.jwt}`);
         var requestOptions = {
             method: 'POST',
             headers: header,
@@ -253,4 +258,22 @@ export class AutoDotNetCoreApiStoredProc implements IAutoDotNetCoreApiStoredProc
         return this.host + `storedProc/` + this.name;
     }
 
+}
+
+export class AutoDotNetCoreApiBuilder {
+
+
+	constructor(private host, private jwt) {
+		
+	}
+
+	public   Table<T>(name:string):AutoDotNetCoreApiTable<T> {
+		return new AutoDotNetCoreApiTable<T>(name, this.host,this.jwt);
+	}
+	public   View<T>( name:string):AutoDotNetCoreApiView<T> {
+		return new AutoDotNetCoreApiView<T>(name, this.host,this.jwt);
+	}
+	public   StoredProc( name:string):AutoDotNetCoreApiStoredProc {
+		return new AutoDotNetCoreApiStoredProc(name, this.host,this.jwt);
+	}
 }
