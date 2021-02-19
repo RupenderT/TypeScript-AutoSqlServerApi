@@ -13,6 +13,7 @@
   ],
   "author": "Rupender Tomar",
   "license": "ISC",
+  "homepage":"https://github.com/RupenderT/TypeScript-AutoSqlServerApi",
   "devDependencies": {
     "typescript": "^4.1.3"
   }
